@@ -1,0 +1,35 @@
+{
+  "info": {
+    "name": "Webhook Processor",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:8000/", "protocol": "http", "host": [ "localhost" ], "port": "8000", "path": [""] }
+      }
+    },
+    {
+      "name": "Send Webhook",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"transaction_id\": \"txn_abc123def456\",\n  \"source_account\": \"acc_user_789\",\n  \"destination_account\": \"acc_merchant_456\",\n  \"amount\": 1500,\n  \"currency\": \"INR\"\n}"
+        },
+        "url": { "raw": "http://localhost:8000/v1/webhooks/transactions", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["v1","webhooks","transactions"] }
+      }
+    },
+    {
+      "name": "Get Transaction",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "http://localhost:8000/v1/transactions/txn_abc123def456", "protocol": "http", "host": ["localhost"], "port": "8000", "path": ["v1","transactions","txn_abc123def456"] }
+      }
+    }
+  ]
+}

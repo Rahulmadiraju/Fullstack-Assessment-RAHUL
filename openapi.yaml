@@ -1,0 +1,78 @@
+openapi: 3.0.2
+info:
+  title: Transaction Webhook Processor
+  version: "1.0"
+servers:
+  - url: http://localhost:8000
+paths:
+  /:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  current_time:
+                    type: string
+  /v1/webhooks/transactions:
+    post:
+      summary: Accept transaction webhook (returns 202)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - transaction_id
+                - source_account
+                - destination_account
+                - amount
+                - currency
+              properties:
+                transaction_id:
+                  type: string
+                source_account:
+                  type: string
+                destination_account:
+                  type: string
+                amount:
+                  type: number
+                currency:
+                  type: string
+      responses:
+        '202':
+          description: Accepted
+  /v1/transactions/{transaction_id}:
+    get:
+      summary: Get transaction status
+      parameters:
+        - name: transaction_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Transaction status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction_id: { type: string }
+                  source_account: { type: string }
+                  destination_account: { type: string }
+                  amount: { type: number }
+                  currency: { type: string }
+                  status: { type: string }
+                  created_at: { type: string }
+                  processed_at: { type: string, nullable: true }
+        '404':
+          description: Not Found
